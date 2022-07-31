@@ -1,0 +1,1 @@
+export const MAX_DASHBOARDS_TO_RETRIEVE = 400
