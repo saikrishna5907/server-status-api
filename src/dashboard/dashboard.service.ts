@@ -10,6 +10,7 @@ import { GET_DASHBOARDS_TAKE_ERROR } from '../constants/error-messages'
 
 @Injectable()
 export class DashboardService {
+
     public constructor(@InjectRepository(Dashboard) private readonly repo: Repository<Dashboard>) { }
 
     public async getDashboards(body: GetDashboardsDTO): Promise<Dashboard[]> {
