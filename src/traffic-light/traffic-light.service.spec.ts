@@ -62,23 +62,22 @@ describe('TrafficLightService', () => {
   });
 
   describe('addTrafficLight', () => {
-    // const mockGetDashboard = jest.spyOn(DashboardService, "getDashboardById")
     it('should throw exception when dashboard is not found for given id', async () => {
       const spySave = jest.spyOn(trafficLightRepositoryFake, 'save')
+      const getDashboardByIdSpy = jest.spyOn(dashBoardServiceFake, 'getDashboardById').mockResolvedValueOnce(null)
       try {
-
         await service.addTrafficLight(addTrafficLightInput)
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException)
         expect(error.message).toEqual(GET_DASHBOARD_BY_ID_NOT_FOUND)
         expect(spySave).toHaveBeenCalledTimes(0)
+        expect(getDashboardByIdSpy).toHaveBeenCalledTimes(1)
       }
     })
 
     it('should save traffic light to DB when valid id and status given', async () => {
       try {
         const result = await service.addTrafficLight(addTrafficLightInput);
-        console.error(result)
         expect(result).toEqual(sampleAddTrafficLightResponse)
       } catch (error) {
 
@@ -136,6 +135,31 @@ describe('TrafficLightService', () => {
         expect(findSpy).toHaveBeenCalledTimes(1)
         expect(mockGet).toHaveBeenCalledTimes(1)
         expect(actualResult).toMatchObject<GetStatusResponseDTO>({ statusCode: result })
+      } catch (error) {
+
+      }
+    })
+  })
+
+  describe('trafficLightsByDashboard', () => {
+    it('should throw exception when dashboard is not found for given id', async () => {
+      const findSpy = jest.spyOn(trafficLightRepositoryFake, 'find')
+      const getDashboardByIdSpy = jest.spyOn(dashBoardServiceFake, 'getDashboardById').mockResolvedValueOnce(null)
+      try {
+
+        await service.trafficLightsByDashboard(0)
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException)
+        expect(error.message).toEqual(GET_DASHBOARD_BY_ID_NOT_FOUND)
+        expect(findSpy).toHaveBeenCalledTimes(0)
+        expect(getDashboardByIdSpy).toHaveBeenCalledTimes(1)
+      }
+    })
+
+    it('show get all trafficLights for a dashboard', async () => {
+      try {
+        const result = await service.trafficLightsByDashboard(1);
+        expect(result).toEqual(sampleAddTrafficLightResponse)
       } catch (error) {
 
       }

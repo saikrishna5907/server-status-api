@@ -11,6 +11,7 @@ import { GetStatusResponseDTO } from './dtos/get-status-response.dto';
 @Injectable()
 export class TrafficLightService {
 
+
     public constructor(@InjectRepository(TrafficLight) private repo: Repository<TrafficLight>, private dashBoardService: DashboardService) { }
 
 
@@ -57,5 +58,21 @@ export class TrafficLightService {
         }
 
         return { statusCode };
+    }
+
+    public async trafficLightsByDashboard(dashboardId: number): Promise<TrafficLight[]> {
+        const dashBoard = await this.dashBoardService.getDashboardById(dashboardId)
+        if (!dashBoard) {
+            throw new NotFoundException(GET_DASHBOARD_BY_ID_NOT_FOUND)
+        }
+
+        return await this.repo.find({
+            where: {
+                dashboards: {
+                    id: dashboardId
+                }
+            }
+        })
+
     }
 }

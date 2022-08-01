@@ -17,4 +17,9 @@ export class TrafficLightController {
   public async addTrafficLight(@Body() body: AddTrafficLightDTO): Promise<TrafficLight> {
     return this.trafficLightService.addTrafficLight(body)
   }
+
+  @Get('/trafficLightsByDashboard/:id')
+  public async trafficLightsByDashboard(@Param('id') id: string) {
+    return await this.trafficLightService.trafficLightsByDashboard(parseInt(id))
+  }
 }

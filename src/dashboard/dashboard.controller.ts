@@ -1,7 +1,7 @@
 import { GetDashboardsDTO } from './dtos/get-dashboards.dto';
 import { AddDashboardDTO } from './dtos/add-dashboard.dto';
 import { Dashboard } from './dashboard.entity';
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 
 @Controller()
